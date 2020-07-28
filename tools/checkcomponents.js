@@ -15,7 +15,10 @@ function getJsonPathInfo(jsonPath) {
   const fileBase = path.join(relative, fileName)
 
   return {
-    dirPath, fileName, relative, fileBase
+    dirPath,
+    fileName,
+    relative,
+    fileBase
   }
 }
 
@@ -27,7 +30,6 @@ const hasCheckMap = {}
 async function checkIncludedComponents(jsonPath, componentListMap) {
   const json = _.readJson(jsonPath)
   if (!json) throw new Error(`json is not valid: "${jsonPath}"`)
-
   const {dirPath, fileName, fileBase} = getJsonPathInfo(jsonPath)
   if (hasCheckMap[fileBase]) return
   hasCheckMap[fileBase] = true
@@ -39,7 +41,10 @@ async function checkIncludedComponents(jsonPath, componentListMap) {
 
     for (let j = 0, jlen = keys.length; j < jlen; j++) {
       const key = keys[j]
-      let value = typeof checkPropValue[key] === 'object' ? checkPropValue[key].default : checkPropValue[key]
+      let value =
+        typeof checkPropValue[key] === 'object'
+          ? checkPropValue[key].default
+          : checkPropValue[key]
       if (!value || typeof value === 'boolean') continue
 
       value = _.transformPath(value, path.sep)
@@ -60,11 +65,19 @@ async function checkIncludedComponents(jsonPath, componentListMap) {
     jsExt = '.ts'
   }
 
+  let wxsExt = ''
+  const isWxsFileExists = await _.checkFileExists(wholeFileBase + '.wxs')
+  if (isWxsFileExists) {
+    wxsExt = '.wxs'
+  }
+
   // 进入存储
   componentListMap.wxmlFileList.push(`${fileBase}.wxml`)
   componentListMap.wxssFileList.push(`${fileBase}.wxss`)
   componentListMap.jsonFileList.push(`${fileBase}.json`)
   componentListMap.jsFileList.push(`${fileBase}${jsExt}`)
+
+  // componentListMap.wxsFileList.push(`${fileBase}.wxs`)
 
   componentListMap.jsFileMap[fileBase] = `${wholeFileBase}${jsExt}`
 }
@@ -76,7 +89,7 @@ module.exports = async function (entry) {
     jsonFileList: [],
     jsFileList: [],
 
-    jsFileMap: {}, // 为 webpack entry 所用
+    jsFileMap: {} // 为 webpack entry 所用
   }
 
   const isExists = await _.checkFileExists(entry)

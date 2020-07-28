@@ -1,6 +1,4 @@
-import {
-  xComponent
-} from '../libs/wrapper/index'
+import {xComponent} from '../common/wrapper/index'
 
 xComponent({
   data: {},

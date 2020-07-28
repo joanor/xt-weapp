@@ -85,13 +85,13 @@ function xComponent(vantOptions) {
   }
 
   // add default store, each page will use it
-  options.storeBindings = {
-    store,
-    fields: {
-      username: () => store.username
-    },
-    actions: ['update']
-  }
+  // options.storeBindings = {
+  //   store,
+  //   fields: {
+  //     username: () => store.username
+  //   },
+  //   actions: ['update']
+  // }
 
   // add default externalClasses
   options.externalClasses = options.externalClasses || []

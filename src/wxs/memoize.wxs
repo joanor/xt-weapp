@@ -1,0 +1,76 @@
+/**
+ * Simple memoize     译：简单的备忘录
+ * wxs doesn't support fn.apply, so this memoize only support up to 2 args
+ */
+
+/**
+ * 检测是否是元数据类型
+ * @param {any} value
+ * @returns {Boolean} 返回真或者假
+ */
+function isPrimitive(value) {
+  var type = typeof value
+  return (
+    type === 'boolean' ||
+    type === 'number' ||
+    type === 'string' ||
+    type === 'undefined' ||
+    value === null
+  )
+}
+
+// mock simple fn.call in wxs
+
+/**
+ * mock simple fn.call in wxs
+ * @param {Function} fn
+ * @param {Array} args
+ * @returns {any}
+ */
+function call(fn, args) {
+  if (args.length === 2) {
+    return fn(args[0], args[1])
+  }
+
+  if (args.length === 1) {
+    return fn(args[0])
+  }
+
+  return fn()
+}
+
+/**
+ * 序列化参数
+ * @param {Array} args
+ * @returns {any}
+ */
+function serializer(args) {
+  if (args.length === 1 && isPrimitive(args[0])) {
+    return args[0]
+  }
+  var obj = {}
+  for (var i = 0; i < args.length; i++) {
+    obj['key' + i] = args[i]
+  }
+  return JSON.stringify(obj)
+}
+
+/**
+ * 缓存
+ * @param {Function} fn
+ * @returns {Function}  返回匿名函数，返回的函数的参数最多是两个
+ */
+function memoize(fn) {
+  var cache = {}
+
+  return function () {
+    var key = serializer(arguments)
+    if (cache[key] === undefined) {
+      cache[key] = call(fn, arguments)
+    }
+    console.log('cache[key]', cache[key])
+    return cache[key]
+  }
+}
+
+module.exports.memoize = memoize

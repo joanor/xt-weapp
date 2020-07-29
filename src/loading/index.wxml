@@ -8,6 +8,6 @@
   </view>
 </view>
 <view wx:if="{{various&&type==='loading1' || type==='loading2'|| type==='loading3'|| type==='loading4'|| type==='loading5'|| type==='loading6'|| type==='loading7'|| type==='loading8'}}" class="{{type==='loading1'?'load1':type==='loading2'?'load2':type==='loading3'?'load3':type==='loading4'?'load4':type==='loading5'?'load5':type==='loading6'?'load6':type==='loading7'?'load7':'load8'}}">
-  <view class="loader" wx:if="type==='loading3'" style="background:linear-gradient(to right, {{bgcolor}} 10%, rgba(255, 255, 255, 0) 42%);color:{{color}};font-size:{{utils.addUnit(size)}}"></view>
-  <view class="loader" wx:if="type!=='loading3'" style="background:{{bgcolor}};color:{{color}};font-size:{{utils.addUnit(size)}}"></view>
+  <view class="loader" wx:if="{{type==='loading3'}}" style="background:linear-gradient(to right, {{bgcolor}} 10%, rgba(255, 255, 255, 0) 42%);color:{{color}};font-size:{{utils.addUnit(size)}}"></view>
+  <view class="loader" wx:else style="background:{{bgcolor}};color:{{color}};font-size:{{utils.addUnit(size)}}"></view>
 </view>

@@ -1,5 +1,5 @@
 /* eslint-disable */
-var REGEXP = getRegExp('^d+(.d+)?$')
+var REGEXP = getRegExp('^\d+(\.\d+)?$')
 
 /**
  * 添加样式px单位
@@ -10,7 +10,7 @@ function addUnit(value) {
   if (value == null) {
     return undefined
   }
-
+  // console.log(val, typeof val)
   return REGEXP.test('' + value) ? value + 'px' : value
 }
 
